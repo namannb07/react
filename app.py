@@ -275,7 +275,7 @@ class ChemBERTaPredictor:
         """Predict oral bioavailability"""
         # Veber's rules + AI enhancement
         base_score = 0.8 if (tpsa <= 140 and mw <= 500) else 0.4
-        ai_adjustment = np.sigmoid(embedding_max) * 0.4 - 0.2
+        ai_adjustment = torch.sigmoid(torch.tensor(embedding_max)).item * 0.4 - 0.2
         return max(0, min(1, base_score + ai_adjustment))
 
     def _predict_toxicity(self, mw, logp, embedding_mean, embedding_std):
